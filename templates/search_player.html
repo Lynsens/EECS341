@@ -101,16 +101,20 @@
                 <button type="submit" class="btn btn-primary">Search</button>
               </form>
               </div>
+
            <div class="panel-heading">
               <h3 class="panel-title">Result</h3>
             </div> 
-              {% for item in output %}
+            <table align="right">
+            <p>{{ output | safe }}</p>
+          </table>
+<!--               {% for item in output %}
                 <tr>
                     <td>{{item[0]}}</td>
                     <td>{{item[1]}}</td>
                     <td>{{item[2]}}</td>
                 </tr>
-                {% endfor %}
+                {% endfor %} -->
                {% for item in output2 %}
                     <h3>No Such a Player</h3>
                 {% endfor %}

@@ -69,7 +69,7 @@
                 <div class="form-group">
                   <label for="carbohydrates">Nationality</label>
                   <select class="form-control" name = "nationality">
-                   <option value="" selected disabled hidden >Select A Countries</option>
+                   <option value="" selected disabled hidden >Select A Country</option>
                    <option value="Ukraine" >"Ukraine"</option>
                    <option value="Thailand" >"Thailand"</option>
                    <option value="US" >"United States"</option>
@@ -95,13 +95,9 @@
            <div class="panel-heading">
               <h3 class="panel-title">Result</h3>
             </div> 
-              {% for item in output %}
-                <tr>
-                    <td>{{item[0]}}</td>
-                    <td>{{item[1]}}</td>
-                    <td>{{item[2]}}</td>
-                </tr>
-                {% endfor %}
+            <table align="right">
+            <p>{{ output | safe }}</p>
+          </table>
                {% for item in output2 %}
                     <h3>No Such a Club</h3>
                 {% endfor %}

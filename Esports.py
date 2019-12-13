@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 import psycopg2
 import json
-from pprint import pprint
+from json2html import *
 
 app = Flask(__name__)
 
@@ -51,7 +51,7 @@ def club():
 			query = "Select c.club_name from Club c where not exists ((select p.club_id from Participate p where p.club_id = c.club_id) except (select g.game_id from Game_tournament g where g.game_id = '{}'))".format(request.form.get('gameID'))
 		if getQ(query) == "[]":
 			return render_template('search_club.html', output2="1")
-		return render_template('search_club.html', output = getQ(query))
+		return render_template('search_club.html', output = json2html.convert(getQ(query)))
 	return render_template('search_club.html')
 
 @app.route('/player', methods=['GET', 'POST'])
@@ -83,7 +83,7 @@ def player():
 		
 		if getQ(query) == "[]":
 			return render_template('search_player.html', output2="1")
-		return render_template('search_player.html', output = getQ(query))
+		return render_template('search_player.html', output = json2html.convert(getQ(query)))
 		# return '<h1>{},{}<h1>'.format(query,getQ(query))
 	return render_template('search_player.html')
 
