@@ -48,7 +48,7 @@
                 <div class="form-group">
                   <label for="carbohydrates">Game</label>
                   <select class="form-control" name = "gameID">
-                   <option value="0">All Games</option>
+                   <option value=0>All Games</option>
                    <option value=000001 >League of Legends</option>
                    <option value=000002 >DOTA2</option>
                    <option value=000003 >CS:GO</option>
@@ -69,7 +69,7 @@
                 <div class="form-group">
                   <label for="carbohydrates">Nationality</label>
                   <select class="form-control" name = "nationality">
-                   <option value="" selected disabled hidden >Select A Country</option>
+                   <option value="All" >All Countries</option>
                    <option value="Ukraine" >"Ukraine"</option>
                    <option value="Thailand" >"Thailand"</option>
                    <option value="US" >"United States"</option>
@@ -82,24 +82,45 @@
                       <input type="checkbox" id="rank" name="rank">
                       <label for="rank">Show Rank</label>
                     </div>
+                                    </div>  
+                <button type="submit" class="btn btn-primary">Search</button>
+          </div>
                 </div>     
+
+              </div>
+          <div class="panel panel-primary">
+
+            <div class="panel-heading">
+              <h3 class="panel-title">Show Teams Participated in All Tounaments</h3>
+            </div>
+
+
+            <div class="panel-body">
                 <div class="form-group">
-                  <label for="carbohydrates">Tournament</label>
-                    <div>
-                      <input type="checkbox" id="horns" name="check">
-                      <label for="Participate in All Tounaments">Show Teams Participated in All Tounaments</label>
-                    </div>
+                  <label for="carbohydrates">Game</label>
+                  <select class="form-control" name = "gameID2">
+                   <option selected disabled hidden >Select A Game</option>
+                   <option value=000001 >League of Legends</option>
+                   <option value=000002 >DOTA2</option>
+                   <option value=000003 >CS:GO</option>
+                   </select>
+                </div>    
+                <div class="form-group">
+
                 </div>  
                 <button type="submit" class="btn btn-primary">Search</button>
           </div>
            <div class="panel-heading">
               <h3 class="panel-title">Result</h3>
             </div> 
-            <table align="right">
+            <table align="center">
             <p>{{ output | safe }}</p>
           </table>
                {% for item in output2 %}
                     <h3>No Such a Club</h3>
+                {% endfor %}
+                {% for item in output3 %}
+                    <h3>Select A Game</h3>
                 {% endfor %}
               </div>
         </div>

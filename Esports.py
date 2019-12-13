@@ -36,22 +36,85 @@ def home():
 @app.route('/club', methods=['GET', 'POST'])
 def club():
 	if request.method == 'POST':
-		if not request.form.get('check'):
+		
+		if not request.form.get('gameID2'): 
+			
 			if not request.form.get('rank'):
-				if request.form.get("gameID") == "0":
-					query = " SELECT DISTINCT club_name FROM club, game, play WHERE club.country = '{}'".format(request.form.get('nationality'))
+
+				if request.form.get('nationality') == 'All':
+					if request.form.get("gameID") == "0":
+						query = " SELECT DISTINCT club_name FROM club"
+						if getQ(query) == "[]":
+							return render_template('search_club.html', output2="1")
+						else:
+							return render_template('search_club.html', output = json2html.convert(getQ(query)))					
+						# return '<h1>{}<h1>'.format(query)
+						# return render_template('search_club.html', output = json2html.convert(getQ(query)))
+					else:
+						query = " SELECT DISTINCT club_name FROM club, game, play WHERE play.game_id = game.game_id  and club.club_id = play.club_id and game.game_id = '{}'".format(request.form.get('gameID'))
+						if getQ(query) == "[]":
+							return render_template('search_club.html', output2="1")
+						else:
+							return render_template('search_club.html', output = json2html.convert(getQ(query)))						
+						# return '<h1>{}<h1>'.format(query)
+						# return render_template('search_club.html', output = json2html.convert(getQ(query)))				
 				else:
-					query = " SELECT DISTINCT club_name FROM club, game, play WHERE play.game_id = game.game_id  and club.club_id = play.club_id and club.country = '{}' and game.game_id = '{}'".format(request.form.get('nationality'), request.form.get('gameID'))
-			else: 
-				if request.form.get("gameID") == "0":
-					query = " SELECT DISTINCT club_name, club_rank FROM club, game, play WHERE club.country = '{}'".format(request.form.get('nationality'))
+					if request.form.get("gameID") == "0":
+						query = " SELECT DISTINCT club_name FROM club where club.country = '{}'".format(request.form.get('nationality'))
+						if getQ(query) == "[]":
+							return render_template('search_club.html', output2="1")
+						else:
+							return render_template('search_club.html', output = json2html.convert(getQ(query)))						
+						# return '<h1>{}<h1>'.format(query)
+						# return render_template('search_club.html', output = json2html.convert(getQ(query)))
+					else:
+						query = " SELECT DISTINCT club_name FROM club, game, play WHERE play.game_id = game.game_id  and club.club_id = play.club_id and club.country ='{}'and game.game_id = '{}'".format(request.form.get('gameID'),request.form.get('nationality'))
+						if getQ(query) == "[]":
+							return render_template('search_club.html', output2="1")
+						else:
+							return render_template('search_club.html', output = json2html.convert(getQ(query)))						
+						# return '<h1>{}<h1>'.format(query)
+						# return render_template('search_club.html', output = json2html.convert(getQ(query)))	
+			else:
+				if request.form.get('nationality') == 'All':
+					if request.form.get("gameID") == "0":
+						query = " SELECT DISTINCT club_name, club_rank FROM club"
+						if getQ(query) == "[]":
+							return render_template('search_club.html', output2="1")
+						else:
+							return render_template('search_club.html', output = json2html.convert(getQ(query)))						# return render_template('search_club.html', output = json2html.convert(getQ(query)))
+					else:
+						query = " SELECT DISTINCT club_name, club_rank  FROM club, game, play WHERE play.game_id = game.game_id  and club.club_id = play.club_id and game.game_id = '{}'".format(request.form.get('gameID'))
+						if getQ(query) == "[]":
+							return render_template('search_club.html', output2="1")
+						else:
+							return render_template('search_club.html', output = json2html.convert(getQ(query)))						# return render_template('search_club.html', output = json2html.convert(getQ(query)))				
 				else:
-					query = " SELECT DISTINCT club_name, club_rank FROM club, game, play WHERE play.game_id = game.game_id  and club.club_id = play.club_id and club.country = '{}' and game.game_id = '{}'".format(request.form.get('nationality'), request.form.get('gameID'))				
+					if request.form.get("gameID") == "0":
+						query = " SELECT DISTINCT club_name, club_rank  FROM club and club.country = '{}'".format(request.form.get('nationality'))
+						if getQ(query) == "[]":
+							return render_template('search_club.html', output2="1")
+						else:
+							return render_template('search_club.html', output = json2html.convert(getQ(query)))						# return render_template('search_club.html', output = json2html.convert(getQ(query)))
+					else:
+						query = " SELECT DISTINCT club_name, club_rank  FROM club, game, play WHERE play.game_id = game.game_id  and club.club_id = play.club_id and club.country ='{}'and game.game_id = '{}'".format(request.form.get('gameID'),request.form.get('nationality'))
+						if getQ(query) == "[]":
+							return render_template('search_club.html', output2="1")
+						else:
+							return render_template('search_club.html', output = json2html.convert(getQ(query)))						# return render_template('search_club.html', output = json2html.convert(getQ(query)))					
+		
 		else:
-			query = "Select c.club_name from Club c where not exists ((select p.club_id from Participate p where p.club_id = c.club_id) except (select g.game_id from Game_tournament g where g.game_id = '{}'))".format(request.form.get('gameID'))
+			query = "Select c.club_name from Club c where not exists ((select p.club_id from Participate p where p.club_id = c.club_id) except (select g.game_id from Game_tournament g where g.game_id = '{}'))".format(request.form.get('gameID2'))
+			if getQ(query) == "[]":
+				return render_template('search_club.html', output2="1")
+			else:
+				return render_template('search_club.html', output = json2html.convert(getQ(query)))				
+		
 		if getQ(query) == "[]":
 			return render_template('search_club.html', output2="1")
-		return render_template('search_club.html', output = json2html.convert(getQ(query)))
+		else:
+			return render_template('search_club.html', output = json2html.convert(getQ(query)))
+	
 	return render_template('search_club.html')
 
 @app.route('/player', methods=['GET', 'POST'])
